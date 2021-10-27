@@ -9,6 +9,8 @@ import UIKit
 
 struct CardRouter {
     
-    
+    static func routeToCardStatement(on navigationController: UINavigationController) {
+        CardStatementModule.start(on: navigationController)
+        }
     
 }
