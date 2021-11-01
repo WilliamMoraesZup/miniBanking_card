@@ -21,4 +21,14 @@ final class CardHomeViewController: ViewController,
         self.businessHandler = businessHandler
     }
     
+    @IBAction func didTapStatementButton(_ sender: UIButton) {
+        
+        guard let navigationController =
+        navigationController else { return}
+        
+        CardRouter.routeToStatement(on: navigationController)
+        
+    }
+    
+    
 }

@@ -14,6 +14,9 @@ public final class CardModule {
             name: "Card",
             bundle: Bundle.init(for: self)
         )
+        
+        
+        
         guard let initialViewController = storyboard.instantiateInitialViewController() as? CardHomeViewController else { exit(0) }
         let businessHandler = CardHomeViewModel()
         businessHandler.setup(displayer: initialViewController)
