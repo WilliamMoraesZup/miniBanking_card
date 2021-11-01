@@ -37,8 +37,8 @@ final class StatementViewController: ViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(UINib(nibName: "FooterTableCell", bundle: nil), forCellReuseIdentifier: "footerCell")
-        
+//        self.tableView.register(UINib(nibName: "FooterTableCell.xib", bundle: nil), forCellReuseIdentifier: "footerCell")
+//
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -66,13 +66,10 @@ extension StatementViewController : UITableViewDelegate {}
 extension StatementViewController : UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-    
         return statements.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-          
         return statements[section].dayStatements.count
     }
     
@@ -107,23 +104,35 @@ extension StatementViewController : UITableViewDataSource {
         return title.date
     }
 
-    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        
-        let sum = statements[section].dayStatements .reduce(0, { runningSum,
-            value in
-            runningSum + value.amountSpent
-        }
-        )
-        return String(sum)
-        }
+    
+    
+    // ISSO AQUI NAO FAZ SENTIDO !
+    
+//    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+//
+//        let total = statements[section].dayStatements .reduce(0, { runningSum,
+//            value in
+//            runningSum + value.amountSpent
+//        })
+//
+//
+//        return String(total)
+//        }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "footerCell") as!
         FooterTableCell
 
-     //  cell.teste.text = "testando"
-
+        let total = statements[section].dayStatements .reduce(0, { runningSum,
+            value in
+            runningSum + value.amountSpent
+        })
+        cell.lbSum .text = String( total )
+ 
+        
+        
+print(total)
         return cell
     }
 

@@ -81,6 +81,30 @@
                                             <outlet property="lbValue" destination="r3A-3L-j2a" id="ADp-VN-71D"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="footerCell" id="0dy-WD-utq" customClass="FooterTableCell" customModule="miniBanking_card" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="86.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0dy-WD-utq" id="aSk-5s-7Jc">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="R$ 49,00" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jsQ-uC-UbY">
+                                                    <rect key="frame" x="10" y="14" width="354" height="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="jsQ-uC-UbY" firstAttribute="centerY" secondItem="aSk-5s-7Jc" secondAttribute="centerY" id="G7R-WU-Uhv"/>
+                                                <constraint firstAttribute="trailing" secondItem="jsQ-uC-UbY" secondAttribute="trailing" constant="10" id="ldI-zA-hhl"/>
+                                                <constraint firstItem="jsQ-uC-UbY" firstAttribute="centerX" secondItem="aSk-5s-7Jc" secondAttribute="centerX" id="yzj-67-ppL"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="lbSum" destination="jsQ-uC-UbY" id="Q94-hx-j38"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                                 <sections/>
                                 <userDefinedRuntimeAttributes>
