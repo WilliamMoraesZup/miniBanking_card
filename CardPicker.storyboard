@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--CardPicker-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="CardPicker" title="CardPicker" id="Y6W-OH-hqX" customClass="CardPickerViewController" customModule="miniBanking_card" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" alpha="0.94999999999999996" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hAB-zS-AUA">
+                                <rect key="frame" x="47" y="345" width="320" height="216"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </pickerView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Osp-Wr-oaW">
+                                <rect key="frame" x="47" y="561" width="320" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="2pn-e0-TIq"/>
+                                    <constraint firstAttribute="width" constant="320" id="FaV-qk-SHb"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem title="Back" id="50G-aX-cer"/>
+                                    <barButtonItem systemItem="flexibleSpace" id="487-wo-oQt"/>
+                                    <barButtonItem title="Done" id="78q-Jh-msv"/>
+                                </items>
+                                <color key="tintColor" red="0.87450980389999999" green="0.13725490200000001" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <toolbarAppearance key="standardAppearance">
+                                    <color key="backgroundColor" red="0.019607843140000001" green="0.035294117649999998" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </toolbarAppearance>
+                                <toolbarAppearance key="compactScrollEdgeAppearance"/>
+                            </toolbar>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" red="0.019607843137254902" green="0.035294117647058823" blue="0.22352941176470587" alpha="0.37666553219422599" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="hAB-zS-AUA" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="47" id="H0H-BO-787"/>
+                            <constraint firstItem="Osp-Wr-oaW" firstAttribute="top" secondItem="hAB-zS-AUA" secondAttribute="bottom" id="M4d-Ya-iGb"/>
+                            <constraint firstItem="Osp-Wr-oaW" firstAttribute="leading" secondItem="hAB-zS-AUA" secondAttribute="leading" id="OaV-Qy-ccZ"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="hAB-zS-AUA" secondAttribute="trailing" constant="47" id="apg-Bn-DQc"/>
+                            <constraint firstItem="Osp-Wr-oaW" firstAttribute="trailing" secondItem="hAB-zS-AUA" secondAttribute="trailing" id="pEX-Ce-6hP"/>
+                            <constraint firstItem="hAB-zS-AUA" firstAttribute="centerY" secondItem="vDu-zF-Fre" secondAttribute="centerY" id="xnp-kh-UJt"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="pvCardPicker" destination="hAB-zS-AUA" id="VHL-Ha-PLp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="24.637681159420293" y="28.794642857142854"/>
+        </scene>
+    </scenes>
+</document>

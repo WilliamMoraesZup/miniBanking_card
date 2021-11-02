@@ -19,16 +19,16 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="39" translatesAutoresizingMaskIntoConstraints="NO" id="O02-7Y-ADz">
                                 <rect key="frame" x="40" y="144" width="334" height="150"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7gJ-4R-TAj">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="7gJ-4R-TAj">
                                         <rect key="frame" x="0.0" y="0.0" width="147.5" height="150"/>
-                                        <color key="backgroundColor" red="0.96862745100000003" green="0.3921568627" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.87450980389999999" green="0.13725490200000001" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain">
+                                        <buttonConfiguration key="configuration" style="plain" titleAlignment="center">
                                             <attributedString key="attributedTitle">
                                                 <fragment content="Request New Credit Card">
                                                     <attributes>
-                                                        <font key="NSFont" size="18" name="Helvetica-Bold"/>
+                                                        <font key="NSFont" size="14" name="HelveticaNeue-Bold"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>
@@ -40,16 +40,16 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zNG-lE-bov">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="zNG-lE-bov">
                                         <rect key="frame" x="186.5" y="0.0" width="147.5" height="150"/>
-                                        <color key="backgroundColor" red="0.96862745100000003" green="0.3921568627" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.87450980389999999" green="0.13725490200000001" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain">
+                                        <buttonConfiguration key="configuration" style="plain" titleAlignment="center">
                                             <attributedString key="attributedTitle">
                                                 <fragment content="Credit Card Statement">
                                                     <attributes>
-                                                        <font key="NSFont" size="18" name="Helvetica-Bold"/>
+                                                        <font key="NSFont" size="14" name="HelveticaNeue-Bold"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>
@@ -71,7 +71,7 @@
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
-                        <color key="backgroundColor" red="0.36078431372549019" green="0.16470588235294117" blue="0.35686274509803922" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.019607843137254902" green="0.035294117647058823" blue="0.22352941176470587" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="O02-7Y-ADz" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="40" id="T9W-33-xbl"/>
                             <constraint firstItem="O02-7Y-ADz" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="100" id="Ta6-Jo-cCf"/>

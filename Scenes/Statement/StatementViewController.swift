@@ -29,25 +29,52 @@ final class StatementViewController: ViewController,
     }
      
     var statements  : [Statement]  = []
+    var user : UserFinancial?
     
     @IBOutlet weak var tbStatements: UITableView!
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var lbUsedLimit: UILabel!
+    @IBOutlet weak var lbTotalLimit: UILabel!
+    @IBOutlet weak var pvBalance: UIProgressView!
     
+    @IBOutlet weak var teste: UITextField!
+    @IBOutlet weak var btSelectCard: UIButton!
     
+    @IBAction func btChangeCard(_ sender: UIButton) {
+        
+     guard   let cardPicker =  storyboard?.instantiateViewController(withIdentifier: "Picker") as? PickerViewController else { exit(0) }
+        
+        
+        present(cardPicker, animated: true, completion: nil)
+        
+    }
+    
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.tableView.register(UINib(nibName: "FooterTableCell.xib", bundle: nil), forCellReuseIdentifier: "footerCell")
-//
     }
+    
+
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
- 
-       
+        
+        REST.loadUser { (user) in
+                       self.user = user
+            
+            DispatchQueue.main.async {
+                self.lbUsedLimit.text = user.usedLimit.formatedNumberValue()
+                self.lbTotalLimit.text = user.totalLimit.formatedNumberValue()
+                
+                let currentProgress = user.usedLimit / user.totalLimit
+                self.pvBalance.setProgress(Float(currentProgress), animated: true)
+           }
+        }
  
         REST.loadStatement { (statements) in
             self.statements = statements
-          
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -57,84 +84,8 @@ final class StatementViewController: ViewController,
         print(erro)
     }
     }
+     
 }
 
 
-
-
-extension StatementViewController : UITableViewDelegate {}
-extension StatementViewController : UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return statements.count
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return statements[section].dayStatements.count
-    }
-    
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "statementCell", for: indexPath)
-        as! StatementViewCell
-        
-        let stat = statements[indexPath.section]
-         
-        let toShow = stat.dayStatements[indexPath.row]
-        
-        cell.lbCommerceName.text = toShow.commerceName
-        cell.lbValue.text = String(toShow.amountSpent)
-
-        switch toShow.commerceIcon {
-        case "Study":  cell.ivCommerceIcon.image = UIImage(systemName:  "books.vertical")
-        case "Work" :  cell.ivCommerceIcon.image = UIImage(systemName:  "car")
-        case "Health" :  cell.ivCommerceIcon.image = UIImage(systemName:  "bolt.heart")
-        case "Food" :  cell.ivCommerceIcon.image = UIImage(systemName:  "cart")
-        default:
-            cell.ivCommerceIcon.image =  UIImage(systemName:  "dollarsign.circle")
-        }
-
-           return cell
-        
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let title = statements[section]
-        
-        return title.date
-    }
-
-    
-    
-    // ISSO AQUI NAO FAZ SENTIDO !
-    
-//    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-//
-//        let total = statements[section].dayStatements .reduce(0, { runningSum,
-//            value in
-//            runningSum + value.amountSpent
-//        })
-//
-//
-//        return String(total)
-//        }
-
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-
-        let cell = tableView.dequeueReusableCell(withIdentifier: "footerCell") as!
-        FooterTableCell
-
-        let total = statements[section].dayStatements .reduce(0, { runningSum,
-            value in
-            runningSum + value.amountSpent
-        })
-        cell.lbSum .text = String( total )
- 
-        
-        
-print(total)
-        return cell
-    }
-
-}
 
