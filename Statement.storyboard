@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleAspectFit" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="15" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Uto-At-2In">
-                                <rect key="frame" x="20" y="292" width="374" height="500"/>
+                                <rect key="frame" x="20" y="308" width="374" height="484"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="separatorColor" red="0.87450980389999999" green="0.13725490200000001" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -120,13 +120,17 @@
                                 </connections>
                             </tableView>
                             <progressView opaque="NO" contentMode="scaleAspectFit" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9uK-Dc-rUI">
-                                <rect key="frame" x="20" y="178" width="374" height="4"/>
+                                <rect key="frame" x="20" y="178" width="374" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="bdV-BF-Lp0"/>
+                                </constraints>
                                 <color key="progressTintColor" red="0.87450980389999999" green="0.13725490200000001" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="trackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="5"/>
+                                        <integer key="value" value="10"/>
                                     </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </progressView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Used" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ms-im-5M4">
@@ -148,43 +152,23 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YYd-mY-KJi">
-                                <rect key="frame" x="20" y="190" width="0.0" height="0.0"/>
+                                <rect key="frame" x="20" y="206" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                 <color key="textColor" red="1" green="0.99824440479999998" blue="0.99531155819999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tI8-ve-obb">
-                                <rect key="frame" x="394" y="191" width="0.0" height="0.0"/>
+                                <rect key="frame" x="394" y="207" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                 <color key="textColor" red="1" green="0.99824440479999998" blue="0.99531155819999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Period" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vjp-Yu-XeU">
-                                <rect key="frame" x="20" y="248" width="59" height="24"/>
+                                <rect key="frame" x="20" y="264" width="59" height="24"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                 <color key="textColor" red="1" green="0.99824440479999998" blue="0.99531155819999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Wfq-xd-hZX">
-                                <rect key="frame" x="308" y="246" width="86" height="28"/>
-                                <color key="backgroundColor" red="0.87450980389999999" green="0.13725490200000001" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="tintColor" red="1" green="0.99824440479999998" blue="0.99531155819999995" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain">
-                                    <attributedString key="attributedTitle">
-                                        <fragment content="Month">
-                                            <attributes>
-                                                <font key="NSFont" size="12" name="HelveticaNeue-Bold"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
-                                </buttonConfiguration>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rUw-4r-Uiz">
                                 <rect key="frame" x="20" y="810" width="374" height="31"/>
                                 <color key="backgroundColor" red="0.87450980389999999" green="0.13725490200000001" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -204,13 +188,16 @@
                                         <integer key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="goBack:" destination="9Gu-ik-OjG" eventType="touchUpInside" id="MzJ-PN-ZxB"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2U5-Y3-CaT">
-                                <rect key="frame" x="308" y="99" width="86" height="31"/>
+                                <rect key="frame" x="281.5" y="99" width="112.5" height="31"/>
                                 <color key="backgroundColor" red="0.87450980392156863" green="0.13725490196078433" blue="0.30196078431372547" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="31" id="EI2-E5-Ejl"/>
-                                    <constraint firstAttribute="width" constant="86" id="adT-Y5-CFq"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="adT-Y5-CFq"/>
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="contentEdgeInsets" minX="0.0" minY="20" maxX="0.0" maxY="8"/>
@@ -219,7 +206,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" titleAlignment="center">
                                     <attributedString key="attributedTitle">
-                                        <fragment content="Final 3030">
+                                        <fragment content="Select the Card">
                                             <attributes>
                                                 <font key="NSFont" size="12" name="HelveticaNeue-Bold"/>
                                                 <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
@@ -233,7 +220,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="btChangeCard:" destination="9Gu-ik-OjG" eventType="touchUpInside" id="psl-nn-d5i"/>
+                                    <action selector="btChangeCard:" destination="9Gu-ik-OjG" eventType="touchUpInside" id="l0S-my-F2n"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Credit Card" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cSj-Ut-ndF">
@@ -242,6 +229,26 @@
                                 <color key="textColor" red="1" green="0.99824440479999998" blue="0.99531155819999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleAspectFit" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Wfq-xd-hZX">
+                                <rect key="frame" x="309" y="262" width="85" height="28"/>
+                                <color key="backgroundColor" red="0.87450980389999999" green="0.13725490200000001" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" red="1" green="0.99824440479999998" blue="0.99531155819999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="Month">
+                                            <attributes>
+                                                <font key="NSFont" size="12" name="HelveticaNeue-Bold"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </buttonConfiguration>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qMu-9E-40W"/>
                         <color key="backgroundColor" red="0.0039215686274509803" green="0.094117647058823528" blue="0.25490196078431371" alpha="1" colorSpace="calibratedRGB"/>
@@ -268,7 +275,6 @@
                             <constraint firstItem="4Ms-im-5M4" firstAttribute="leading" secondItem="qMu-9E-40W" secondAttribute="leading" constant="20" id="hHi-oV-3dP"/>
                             <constraint firstItem="qMu-9E-40W" firstAttribute="bottom" secondItem="rUw-4r-Uiz" secondAttribute="bottom" constant="21" id="mn8-h3-LG7"/>
                             <constraint firstItem="cSj-Ut-ndF" firstAttribute="leading" secondItem="qMu-9E-40W" secondAttribute="leading" constant="20" id="n7I-NP-TDo"/>
-                            <constraint firstItem="Wfq-xd-hZX" firstAttribute="centerX" secondItem="2U5-Y3-CaT" secondAttribute="centerX" id="nL3-bF-pYf"/>
                             <constraint firstItem="4Ms-im-5M4" firstAttribute="top" secondItem="cSj-Ut-ndF" secondAttribute="bottom" constant="30" id="qzg-1G-Goo"/>
                             <constraint firstItem="9uK-Dc-rUI" firstAttribute="leading" secondItem="qMu-9E-40W" secondAttribute="leading" constant="20" id="t6s-Cs-dCs"/>
                             <constraint firstItem="Vjp-Yu-XeU" firstAttribute="leading" secondItem="qMu-9E-40W" secondAttribute="leading" constant="20" id="vDM-AO-ksM"/>

@@ -19,13 +19,18 @@ public class REST {
         return config
     }()
     
-    private static let statementPath =  "https://mockbin.org/bin/ffd32766-97fc-4fa4-967f-8b63f7e94da8"
+    private static let basePath = "https://g9vr9.mocklab.io"
     
-    private static let userPath =  "https://mockbin.org/bin/3192df13-989c-4174-aa2a-30f4a5cc8742"
+    private static let statementPath =  basePath + "/my/api/cards?id="
+ 
+    
+    private static let userPath = basePath + "/my/api/users?id=1122332001"
+    
     
     // DUVIDA SE MUDA A ESTRUTURA DA FUNCAO, O DATATASK RECLAMA
-    class func loadStatement(onComplete : @escaping ([Statement]) -> Void, onError: @escaping (String) -> Void ) {
-        guard let url = URL(string: statementPath) else { return }
+    class func loadStatement(cardId : String, onComplete : @escaping ([Statement]) -> Void, onError: @escaping (String) -> Void ) {
+        
+        guard let url = URL(string: statementPath + cardId) else { return }
         
         let dataTask = session.dataTask(with: url)  {  (data : Data?, response: URLResponse?, error : Error?) in
             
@@ -48,6 +53,7 @@ public class REST {
                     }
                 }
                 else {
+                     print(error)
                     onError("Status code != 200")
                 }
             }
@@ -70,17 +76,18 @@ public class REST {
              
            if error == nil {
                guard let response = response as? HTTPURLResponse else { return}
-                
+           
                if response.statusCode == 200 {
-                    
-                   guard let data = data else { return}
                    
+                   guard let data = data else { return}
+                  
                    do {
                        let user = try JSONDecoder().decode(UserFinancial.self, from: data)
                        
                        onComplete(user)
                    }
                    catch {
+                       print(error)
                        print("erro no Decode")
                    }
                }

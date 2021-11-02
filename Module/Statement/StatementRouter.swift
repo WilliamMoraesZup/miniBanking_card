@@ -8,3 +8,13 @@
 import Foundation
 
  
+struct StatementRouter  {
+    
+static func routeToStatement(on navigationController: UINavigationController) {
+    StatementModule.start(on: navigationController)
+
+
+}
+    
+    
+}

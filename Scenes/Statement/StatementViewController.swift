@@ -27,9 +27,15 @@ final class StatementViewController: ViewController,
     func setup(businessHandler: StatementDisplayerProtocol) {
         self.businessHandler = businessHandler
     }
-     
+    
     var statements  : [Statement]  = []
     var user : UserFinancial?
+    var selectedCard : Card?
+    
+    let pickerView = UIPickerView()
+    let toolBar = UIToolbar()
+    
+    
     
     @IBOutlet weak var tbStatements: UITableView!
     @IBOutlet weak var tableView: UITableView!
@@ -41,50 +47,106 @@ final class StatementViewController: ViewController,
     @IBOutlet weak var teste: UITextField!
     @IBOutlet weak var btSelectCard: UIButton!
     
-    @IBAction func btChangeCard(_ sender: UIButton) {
-        
-     guard   let cardPicker =  storyboard?.instantiateViewController(withIdentifier: "Picker") as? PickerViewController else { exit(0) }
-        
-        
-        present(cardPicker, animated: true, completion: nil)
-        
-    }
-    
- 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-
-    
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        loadUsers()
+      //  loadStatement(cardId: "")
         
-        REST.loadUser { (user) in
-                       self.user = user
-            
-            DispatchQueue.main.async {
-                self.lbUsedLimit.text = user.usedLimit.formatedNumberValue()
-                self.lbTotalLimit.text = user.totalLimit.formatedNumberValue()
-                
-                let currentProgress = user.usedLimit / user.totalLimit
-                self.pvBalance.setProgress(Float(currentProgress), animated: true)
-           }
-        }
- 
-        REST.loadStatement { (statements) in
+    }
+    
+    @IBAction func goBack(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    
+    @IBAction func btChangeCard(_ sender: UIButton) {
+        pickerView.dataSource = self
+        pickerView.delegate = self
+        pickerView.backgroundColor = .white
+        pickerView.frame = CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 300)
+        toolBar.frame =   CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 50)
+        
+        let btDone =  UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector (onDoneButtonTapped))
+        let btSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let btCancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(onCancelButtonTapped))
+        toolBar.items = [  btCancel,btSpace, btDone ]
+        
+        self.view.addSubview(pickerView)
+        self.view.addSubview(toolBar)
+        
+    }
+    
+    @objc func onDoneButtonTapped(){
+        
+        guard let card = user?.cards else { return print(" erro card")}
+        
+        selectedCard = card[pickerView.selectedRow(inComponent: 0)]
+        
+        guard let lastDigits = selectedCard?.lastDigits else { return print(" erro last digits")}
+        guard let cardId = selectedCard?.cardId else { return print(" erro last cardId")}
+        
+        btSelectCard.titleLabel?.text =  "final ...\( lastDigits)"
+        loadStatement(cardId: cardId)
+        
+        
+        onCancelButtonTapped()
+    }
+    
+    @objc func onCancelButtonTapped(){
+        toolBar.removeFromSuperview()
+        pickerView.removeFromSuperview()
+    }
+    
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        onCancelButtonTapped()
+    }
+    
+    
+    
+    
+    private func loadStatement(cardId : String){
+        
+        REST.loadStatement(cardId: cardId) { (statements) in
             self.statements = statements
             DispatchQueue.main.async {
+                
+                guard let unwrap = self.selectedCard else {
+                    return
+                }
+                self.lbUsedLimit.text = unwrap.usedLimit.formatedNumberValue()
+                self.lbTotalLimit.text = unwrap.totalLimit.formatedNumberValue()
+                
+                
+                let currentProgress = Float(unwrap.usedLimit / unwrap.totalLimit)
+                
+                
+                self.pvBalance.setProgress(Float(currentProgress), animated: true)
                 self.tableView.reloadData()
             }
-            
         }
-    onError: { (erro) in
-        print(erro)
+    onError: { (erro) in print(erro)
     }
     }
-     
+    
+    private func loadUsers(){
+        REST.loadUser { (user) in
+            self.user = user
+            
+            DispatchQueue.main.async {
+                //                self.lbUsedLimit.text = user.usedLimit.formatedNumberValue()
+                //                self.lbTotalLimit.text = user.totalLimit.formatedNumberValue()
+                //
+                //                let currentProgress = user.usedLimit / user.totalLimit
+                //                self.pvBalance.setProgress(Float(currentProgress), animated: true)
+            }
+        }
+    }
 }
 
 
