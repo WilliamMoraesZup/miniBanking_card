@@ -64,6 +64,7 @@ final class StatementViewController: ViewController,
     
     
     @IBAction func btChangeCard(_ sender: UIButton) {
+         
         pickerView.dataSource = self
         pickerView.delegate = self
         pickerView.backgroundColor = .white
@@ -128,6 +129,8 @@ final class StatementViewController: ViewController,
                 
                 self.pvBalance.setProgress(Float(currentProgress), animated: true)
                 self.tableView.reloadData()
+                let indexPath = IndexPath(row: 0, section: 0)
+                self.tableView.scrollToRow (at: indexPath, at: .top, animated: true)
             }
         }
     onError: { (erro) in print(erro)
@@ -137,14 +140,8 @@ final class StatementViewController: ViewController,
     private func loadUsers(){
         REST.loadUser { (user) in
             self.user = user
-            
-            DispatchQueue.main.async {
-                //                self.lbUsedLimit.text = user.usedLimit.formatedNumberValue()
-                //                self.lbTotalLimit.text = user.totalLimit.formatedNumberValue()
-                //
-                //                let currentProgress = user.usedLimit / user.totalLimit
-                //                self.pvBalance.setProgress(Float(currentProgress), animated: true)
-            }
+              DispatchQueue.main.async {
+                }
         }
     }
 }

@@ -22,8 +22,7 @@ public class REST {
     private static let basePath = "https://g9vr9.mocklab.io"
     
     private static let statementPath =  basePath + "/my/api/cards?id="
- 
-    
+  
     private static let userPath = basePath + "/my/api/users?id=1122332001"
     
     

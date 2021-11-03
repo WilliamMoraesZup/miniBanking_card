@@ -193,7 +193,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2U5-Y3-CaT">
-                                <rect key="frame" x="281.5" y="99" width="112.5" height="31"/>
+                                <rect key="frame" x="274" y="99" width="120" height="31"/>
                                 <color key="backgroundColor" red="0.87450980392156863" green="0.13725490196078433" blue="0.30196078431372547" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="31" id="EI2-E5-Ejl"/>
@@ -206,7 +206,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" titleAlignment="center">
                                     <attributedString key="attributedTitle">
-                                        <fragment content="Select the Card">
+                                        <fragment content="Select your Card">
                                             <attributes>
                                                 <font key="NSFont" size="12" name="HelveticaNeue-Bold"/>
                                                 <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
