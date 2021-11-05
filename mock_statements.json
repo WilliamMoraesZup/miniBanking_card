@@ -1,0 +1,84 @@
+
+  {
+    "date": "21/10/21",
+    "dayStatements": [
+      {
+     "commerceName": "Padaria Alvorada",
+        "commerceIcon": "Food",
+        "amountSpent": 30.00
+      },
+      {
+        "commerceName": "Saraiva",
+        "commerceIcon": "Study",
+        "amountSpent": 30.00
+      },
+      {
+             "commerceName": "Amazon",
+        "commerceIcon": "Study",
+        "amountSpent": 58.00
+      },
+      {
+             "commerceName": "Bar do José",
+        "commerceIcon": "Others",
+        "amountSpent": 4.00
+      }
+      
+    ]
+  },
+  {
+    "date": "22/10/21",
+    "dayStatements": [
+   
+      {
+        "commerceName": "GymPass",
+        "commerceIcon": "Health",
+        "amountSpent": 50.00
+      },
+      {
+        "commerceName": "Ifood",
+        "commerceIcon": "Food",
+        "amountSpent": 21.00
+      }
+    ]
+  },
+  {
+    "date": "23/10/21",
+    "dayStatements": [
+      {
+        "commerceName": "Ifood",
+        "commerceIcon": "Food",
+        "amountSpent": 15.90
+      },
+      {
+        "commerceName": "Ifood",
+        "commerceIcon": "Food",
+        "amountSpent": 21.00
+      }
+    ]
+  },
+  {
+    "date": "24/10/21",
+    "dayStatements": [
+      {
+        "commerceName": "Posto de Gasolina Estradao",
+        "commerceIcon": "Gas",
+        "amountSpent": 100.00
+      },
+      {
+        "commerceName": "Pizzaria Bom sabor",
+        "commerceIcon": "Food",
+        "amountSpent": 30.00
+      },
+      {
+        "commerceName": "Motel Trembom",
+        "commerceIcon": "Others",
+        "amountSpent": 120.00
+      },
+      {
+        "commerceName": "Farmacia da Saude",
+        "commerceIcon": "Health",
+        "amountSpent": 45.00
+      }
+    ]
+  }
+]

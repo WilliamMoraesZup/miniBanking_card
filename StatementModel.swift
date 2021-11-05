@@ -10,11 +10,25 @@ import Foundation
 
 struct Statement : Codable   {
     let date : String
-    let dayStatements : [Commerce]
+    let dayStatements : [Store]
     
 }
 
-struct Commerce : Codable {
+struct UserFinancial : Codable  {
+    let accountId : String
+    let cards : [Card]
+}
+
+
+struct Card : Codable{
+    let cardId : String
+    let lastDigits : String
+    let totalLimit : Double
+    let usedLimit : Double
+    
+}
+ 
+struct Store : Codable {
     let commerceName: String
     let commerceIcon : String
     let amountSpent : Double
@@ -30,4 +44,22 @@ struct Commerce : Codable {
     }
 }
 
+
+struct Months : Codable {
+    let monthName: String
+    var query : String  {
+        
+        switch monthName {
+        case "October"  : return "oct"
+        case "November" : return "nov"
+        case "September" : return "sep"
+        case "Three Lasts" : return "default"
+        default:
+            return "default"
+        }
+        
+    }
+    
+    
+}
 

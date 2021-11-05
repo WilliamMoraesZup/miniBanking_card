@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FooterTableCell: UITableViewCell {
+class StatementFooterViewCell: UITableViewCell {
     @IBOutlet weak var lbSum: UILabel!
     
     override func awakeFromNib() {

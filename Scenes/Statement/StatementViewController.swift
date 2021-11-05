@@ -28,92 +28,106 @@ final class StatementViewController: ViewController,
         self.businessHandler = businessHandler
     }
     
+    // MARK: Variables
     var statements  : [Statement]  = []
     var user : UserFinancial?
     var selectedCard : Card?
+    var months : [Months] = []
+    var pickers : ViewPickers = ViewPickers()
     
-    let pickerView = UIPickerView()
-    let toolBar = UIToolbar()
+    var resourceStatement : [Statement] = []
     
-    
-    
+    // MARK: Outlets
     @IBOutlet weak var tbStatements: UITableView!
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var lbUsedLimit: UILabel!
     @IBOutlet weak var lbTotalLimit: UILabel!
     @IBOutlet weak var pvBalance: UIProgressView!
-    
     @IBOutlet weak var teste: UITextField!
     @IBOutlet weak var btSelectCard: UIButton!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
+    @IBOutlet weak var btMonth: UIButton!
     
+    // MARK: MVVM
+    var viewModel = StatementsViewModel()
+    
+    // MARK: LifeCycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadUsers()
-      //  loadStatement(cardId: "")
-        
+        loadItems(); loadUsers(); loadMonths()
     }
     
-    @IBAction func goBack(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
+    override func viewDidLoad() {
+        configureView()
     }
-    
-    
-    @IBAction func btChangeCard(_ sender: UIButton) {
-         
-        pickerView.dataSource = self
-        pickerView.delegate = self
-        pickerView.backgroundColor = .white
-        pickerView.frame = CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 300)
-        toolBar.frame =   CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 300, width: UIScreen.main.bounds.size.width, height: 50)
-        
-        let btDone =  UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector (onDoneButtonTapped))
-        let btSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let btCancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(onCancelButtonTapped))
-        toolBar.items = [  btCancel,btSpace, btDone ]
-        
-        self.view.addSubview(pickerView)
-        self.view.addSubview(toolBar)
-        
+   
+    // MARK: MVVM
+    func configureView(){
+         viewModel.retrieveStatement(cardId: "1212221", month: "nov")
+         viewModel.retrieveMonths()
+         viewModel.retrieveUser()
+
+         bind()
+        btSelectCard.isEnabled = true
+           btMonth.isEnabled = true
     }
-    
-    @objc func onDoneButtonTapped(){
-        
-        guard let card = user?.cards else { return print(" erro card")}
-        
-        selectedCard = card[pickerView.selectedRow(inComponent: 0)]
-        
-        guard let lastDigits = selectedCard?.lastDigits else { return print(" erro last digits")}
-        guard let cardId = selectedCard?.cardId else { return print(" erro last cardId")}
-        
-        btSelectCard.titleLabel?.text =  "final ...\( lastDigits)"
-        loadStatement(cardId: cardId)
-        
-        
-        onCancelButtonTapped()
+   
+    // MARK: MVVM
+    func bind(){
+        viewModel.refreshData = { [weak self] () in
+            DispatchQueue.main.async {
+                
+                self?.tableView.reloadData()
+             
+            }
+            
+        }
     }
-    
-    @objc func onCancelButtonTapped(){
-        toolBar.removeFromSuperview()
-        pickerView.removeFromSuperview()
-    }
-    
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         onCancelButtonTapped()
     }
+     
+    func loadItems(){
+        pickers.delegate(delegate: self)
+        self.pickers.cardPickerView.dataSource = self
+        self.pickers.cardPickerView.delegate = self
+        self.pickers.monthPickerView.delegate = self
+        self.pickers.monthPickerView.dataSource = self
+    }
     
+     
+    // MARK: Actions
     
+    @IBAction func goBack(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+     
     
+    @IBAction func btChangeCard(_ sender: UIButton) {
+        onCancelButtonTapped()
+        self.view.addSubview(self.pickers.cardPickerView)
+        self.view.addSubview(pickers.cardToolBar)
+    }
     
-    private func loadStatement(cardId : String){
+    @IBAction func btChangeMonth(_ sender: UIButton) {
+        onCancelButtonTapped()
+        self.view.addSubview(self.pickers.monthPickerView)
+        self.view.addSubview(pickers.monthToolBar)
         
-        REST.loadStatement(cardId: cardId) { (statements) in
+    }
+     // MARK: Funcs
+     private func loadMonths(){
+        REST.loadMonths(){
+            (months) in
+            self.months = months
+            
+        }
+    }
+    
+    private func loadStatement(cardId : String, month: String ){
+        REST.loadStatement(cardId: cardId, query: month) { (statements) in
             self.statements = statements
             DispatchQueue.main.async {
                 
@@ -123,9 +137,7 @@ final class StatementViewController: ViewController,
                 self.lbUsedLimit.text = unwrap.usedLimit.formatedNumberValue()
                 self.lbTotalLimit.text = unwrap.totalLimit.formatedNumberValue()
                 
-                
                 let currentProgress = Float(unwrap.usedLimit / unwrap.totalLimit)
-                
                 
                 self.pvBalance.setProgress(Float(currentProgress), animated: true)
                 self.tableView.reloadData()
@@ -140,11 +152,51 @@ final class StatementViewController: ViewController,
     private func loadUsers(){
         REST.loadUser { (user) in
             self.user = user
-              DispatchQueue.main.async {
-                }
+            DispatchQueue.main.async {
+            }
         }
     }
 }
 
-
-
+extension StatementViewController :  StatementScreenProtocol {
+     func onCancelButtonTapped() {
+        pickers.monthToolBar.removeFromSuperview()
+        pickers.cardToolBar.removeFromSuperview()
+        pickers.monthPickerView.removeFromSuperview()
+        pickers.cardPickerView.removeFromSuperview()
+    }
+    
+    
+    func onDoneCardButtonTapped(){
+        
+        guard let card = user?.cards else { return print(" erro card")}
+        
+        selectedCard = card[pickers.cardPickerView.selectedRow(inComponent: 0)]
+        
+        guard let lastDigits = selectedCard?.lastDigits else {  return print("erro last digits")}
+        guard let cardId = selectedCard?.cardId else { return print("erro last cardId")}
+        
+        btSelectCard.titleLabel?.text =  "final ...\( lastDigits)"
+        loadStatement(cardId: cardId, month: "default")
+        loadMonths()
+        
+        onCancelButtonTapped()
+    }
+    
+    
+    func onMonthDoneButtonTapped(){
+        
+        let selectedMonth = months[self.pickers.monthPickerView.selectedRow(inComponent: 0)]
+        
+        guard let cardId = selectedCard?.cardId else {
+            return
+        }
+        
+        btMonth.titleLabel?.text = selectedMonth.monthName
+        loadStatement(cardId: cardId, month: selectedMonth.query)
+        
+        onCancelButtonTapped()
+        
+    }
+}
+ 

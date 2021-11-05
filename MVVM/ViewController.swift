@@ -1,23 +1,13 @@
 //
-//  CardPickerViewController.swift
-//  miniBanking_account
+//  ViewController.swift
+//  miniBanking_card
 //
-//  Created by William Moraes da Silva on 02/11/21.
+//  Created by William Moraes da Silva on 04/11/21.
 //
 
 import UIKit
-import miniBanking_core
 
-
-class CardPickerViewController:  ViewController,
-                                 StatementDisplayerProtocol  {
-
-private var businessHandler: StatementDisplayerProtocol?
-
-func setup(businessHandler: StatementDisplayerProtocol) {
-    self.businessHandler = businessHandler
-}
- 
+class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

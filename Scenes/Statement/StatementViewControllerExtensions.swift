@@ -6,6 +6,7 @@
 //
 
 
+
 extension StatementViewController : UITableViewDelegate {}
 extension StatementViewController : UITableViewDataSource {
     
@@ -19,12 +20,13 @@ extension StatementViewController : UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+       
         let cell = tableView.dequeueReusableCell(withIdentifier: "statementCell", for: indexPath)
         as! StatementViewCell
         
         let stat = statements[indexPath.section]
         let toShow = stat.dayStatements[indexPath.row]
-        
+         
         cell.lbCommerceName.text = toShow.commerceName
         cell.lbValue.text =  toShow.amountSpent.formatedNumberValue()
         cell.ivCommerceIcon.image = toShow.setIcon
@@ -35,7 +37,7 @@ extension StatementViewController : UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let title = statements[section]
+       let title = statements[section]
          return title.date
     }
  
@@ -43,7 +45,7 @@ extension StatementViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "footerCell") as!
-        FooterTableCell
+        StatementFooterViewCell
 
         let total = statements[section].dayStatements .reduce(0, { runningSum,
             value in
@@ -66,15 +68,32 @@ extension StatementViewController : UIPickerViewDataSource{
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+     
+        if pickerView == pickers.cardPickerView {
+        guard let cardsCount = user?.cards.count else {
+            print("erro picker view")
+            exit(0) }
+            return cardsCount
+            
+        }
+        else{ 
+            return months.count
+         }
         
-        guard let cardsCount = user?.cards.count else { exit(0) }
-        return cardsCount
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        guard let digits =    user?.cards[row].lastDigits  else { exit(0) }
+  
+        if pickerView == pickers.cardPickerView  {
+            guard let digits =    user?.cards[row].lastDigits  else { print("erro lastidigts  picker view")
+                exit(0)}
+            return "...\(digits)" }
+        else  {
+            print(self.viewModel.months)
+           return  months[row].monthName
+           // return months[row].monthName
+            }
+            
+        }
          
-        return "...\(digits)"
-        
-    }
 }
