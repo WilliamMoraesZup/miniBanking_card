@@ -9,6 +9,14 @@ import UIKit
 
 class StatementViewCell: UITableViewCell {
     
+    
+    var teste : StatementViewModel! {
+        didSet{
+            print("fui alterado")
+        }
+    }
+    
+    
     @IBOutlet weak var ivCommerceIcon: UIImageView!
     @IBOutlet weak var lbCommerceName: UILabel!
     

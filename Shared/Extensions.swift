@@ -8,18 +8,13 @@
 import Foundation
 
 
+
 extension Double {
-    
     func formatedNumberValue() -> String {
         let formatter = NumberFormatter()
-        
-        formatter.numberStyle = .currency
+         formatter.numberStyle = .currency
         formatter.currencySymbol = "R$ "
         formatter.usesGroupingSeparator = true
-    
-        // PODE USAR UNWRAP AQUI ??
-        
-        return formatter.string(for: self)!
+         return formatter.string(for: self)!
     }
-    
 }

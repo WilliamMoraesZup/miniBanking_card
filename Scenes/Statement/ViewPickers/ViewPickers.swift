@@ -15,16 +15,21 @@ protocol StatementScreenProtocol : AnyObject {
 
 class ViewPickers : UIView {
     
-    
     weak private var delegate : StatementScreenProtocol?
     
-    
     func delegate(delegate: StatementScreenProtocol){
- 
         self.delegate = delegate
+    
     }
     
-    
+//    func setupDelegates(to vc: StatementViewController){
+//        monthPickerView.delegate = vc
+//        monthPickerView.dataSource = vc
+//        cardPickerView.dataSource = vc
+//        cardPickerView.dataSource = vc
+//
+//    }
+  
     lazy var cardPickerView : UIPickerView = {
         var picker = UIPickerView()
         picker.backgroundColor = .white
@@ -45,14 +50,6 @@ class ViewPickers : UIView {
     }()
     
     
-    lazy var toolBar : UIToolbar = {
-        var tool = UIToolbar()
-        tool.layer.cornerRadius = 10
-        tool.layer.masksToBounds = true
-        tool.frame =   CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 200, width: UIScreen.main.bounds.size.width, height: 50)
-        return tool
-    }()
-    
     lazy var monthToolBar : UIToolbar = {
         var tool = UIToolbar()
         tool.layer.cornerRadius = 10
@@ -62,11 +59,11 @@ class ViewPickers : UIView {
         let btSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         let btCancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.onCancelButtonTapped ))
         tool.items = [  btCancel,btSpace ,  btDone]
-        
-        
-        return tool
+         return tool
     }()
-    lazy var cardToolBar : UIToolbar = {
+ 
+    
+   lazy var cardToolBar : UIToolbar = {
         var tool = UIToolbar()
         tool.layer.cornerRadius = 10
         tool.layer.masksToBounds = true
@@ -80,22 +77,6 @@ class ViewPickers : UIView {
         return tool
     }()
     
-    
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.addSubview()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    func addSubview(){
-        self.addSubview(cardPickerView)
-        self.addSubview(monthPickerView)
-    }
     
     @objc func onCancelButtonTapped(){
         delegate?.onCancelButtonTapped()

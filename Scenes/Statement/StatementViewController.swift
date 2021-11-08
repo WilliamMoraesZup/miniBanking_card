@@ -11,14 +11,13 @@ import Foundation
 
 
 import UIKit
-import miniBanking_core 
+import miniBanking_core
 
 
 protocol StatementDisplayerProtocol: AnyObject {
     
 }
-
-
+  
 final class StatementViewController: ViewController,
                                      StatementDisplayerProtocol  {
     
@@ -28,14 +27,14 @@ final class StatementViewController: ViewController,
         self.businessHandler = businessHandler
     }
     
-    // MARK: Variables
-    var statements  : [Statement]  = []
-    var user : UserFinancial?
-    var selectedCard : Card?
+    //      MARK: Variables
     var months : [Months] = []
     var pickers : ViewPickers = ViewPickers()
     
-    var resourceStatement : [Statement] = []
+    // MARK: Injectables
+    var statementVM : StatementListViewModel!
+    var userVM : UserViewModel!
+    var selectedCardVM : CardViewModel?
     
     // MARK: Outlets
     @IBOutlet weak var tbStatements: UITableView!
@@ -43,101 +42,96 @@ final class StatementViewController: ViewController,
     @IBOutlet weak var lbUsedLimit: UILabel!
     @IBOutlet weak var lbTotalLimit: UILabel!
     @IBOutlet weak var pvBalance: UIProgressView!
-    @IBOutlet weak var teste: UITextField!
     @IBOutlet weak var btSelectCard: UIButton!
-    
     @IBOutlet weak var btMonth: UIButton!
+    @IBOutlet weak var scMonthSwitch: UISegmentedControl!
     
-    // MARK: MVVM
-    var viewModel = StatementsViewModel()
+    
     
     // MARK: LifeCycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadItems(); loadUsers(); loadMonths()
+        
+        scMonthSwitch.removeAllSegments()
+        loadItems(); fetchData()
+      
+        
     }
-    
-    override func viewDidLoad() {
-        configureView()
-    }
-   
-    // MARK: MVVM
-    func configureView(){
-         viewModel.retrieveStatement(cardId: "1212221", month: "nov")
-         viewModel.retrieveMonths()
-         viewModel.retrieveUser()
-
-         bind()
-        btSelectCard.isEnabled = true
-           btMonth.isEnabled = true
-    }
-   
-    // MARK: MVVM
-    func bind(){
-        viewModel.refreshData = { [weak self] () in
-            DispatchQueue.main.async {
-                
-                self?.tableView.reloadData()
-             
-            }
-            
-        }
-    }
-    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         onCancelButtonTapped()
     }
-     
+    
     func loadItems(){
         pickers.delegate(delegate: self)
+      
         self.pickers.cardPickerView.dataSource = self
         self.pickers.cardPickerView.delegate = self
         self.pickers.monthPickerView.delegate = self
         self.pickers.monthPickerView.dataSource = self
+        
+        
+        
     }
+   
     
-     
     // MARK: Actions
-    
     @IBAction func goBack(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
-     
-    
+ 
     @IBAction func btChangeCard(_ sender: UIButton) {
         onCancelButtonTapped()
         self.view.addSubview(self.pickers.cardPickerView)
         self.view.addSubview(pickers.cardToolBar)
-    }
+     }
     
-    @IBAction func btChangeMonth(_ sender: UIButton) {
-        onCancelButtonTapped()
-        self.view.addSubview(self.pickers.monthPickerView)
-        self.view.addSubview(pickers.monthToolBar)
+//    @IBAction func btChangeMonth(_ sender: UIButton) {
+//        onCancelButtonTapped()
+//        self.view.addSubview(self.pickers.monthPickerView)
+//        self.view.addSubview(self.pickers.monthToolBar)
+//    }
+//
+    
+    @IBAction func monthSwitched(_ sender: UISegmentedControl) {
+        print("asdas")
+        let index = sender.selectedSegmentIndex
         
-    }
-     // MARK: Funcs
-     private func loadMonths(){
-        REST.loadMonths(){
-            (months) in
-            self.months = months
-            
+        let selectedMonth = months[index]
+         
+//        switch index {
+//        case 0: month = "sep"
+//        case 1: month = "oct"
+//        case 2: month = "nov"
+//        default: month = "default"
+//        }
+        guard let cardVM = selectedCardVM else {
+            return
         }
-    }
+      
+ 
+        loadStatementTable(cardId: cardVM.cardId, month: selectedMonth.query)
+       
+        print(selectedMonth)
+        tableView.reloadData()
+        
+        }
+        
+ 
     
-    private func loadStatement(cardId : String, month: String ){
+   
+    // MARK: Funcs
+    private func loadStatementTable(cardId : String, month: String ){
         REST.loadStatement(cardId: cardId, query: month) { (statements) in
-            self.statements = statements
+            self.statementVM = StatementListViewModel(statement: statements)
+            guard let selected = self.selectedCardVM else {
+                return
+            }
+
             DispatchQueue.main.async {
-                
-                guard let unwrap = self.selectedCard else {
-                    return
-                }
-                self.lbUsedLimit.text = unwrap.usedLimit.formatedNumberValue()
-                self.lbTotalLimit.text = unwrap.totalLimit.formatedNumberValue()
-                
-                let currentProgress = Float(unwrap.usedLimit / unwrap.totalLimit)
+                self.lbUsedLimit.text =  selected.formattedUsed
+                self.lbTotalLimit.text =  selected.formattedTotal
+                let currentProgress =  selected.balance
                 
                 self.pvBalance.setProgress(Float(currentProgress), animated: true)
                 self.tableView.reloadData()
@@ -149,38 +143,52 @@ final class StatementViewController: ViewController,
     }
     }
     
-    private func loadUsers(){
-        REST.loadUser { (user) in
-            self.user = user
+    private func fetchData(){
+        REST.loadMonths(){
+            (months) in
+            self.months = months
+            var indexForSegment = 0
+            
             DispatchQueue.main.async {
+                months.forEach { month in
+                    self.scMonthSwitch.insertSegment(withTitle: month.monthName, at: indexForSegment, animated: true)
+                    indexForSegment += 1
+                }
             }
+          
+            
+        }
+       REST.loadUser { (user) in
+            self.userVM = UserViewModel(user)
+           DispatchQueue.main.async {
+               self.btSelectCard.isEnabled = true
+           }
         }
     }
 }
 
 extension StatementViewController :  StatementScreenProtocol {
-     func onCancelButtonTapped() {
+    func onCancelButtonTapped() {
         pickers.monthToolBar.removeFromSuperview()
         pickers.cardToolBar.removeFromSuperview()
         pickers.monthPickerView.removeFromSuperview()
         pickers.cardPickerView.removeFromSuperview()
     }
     
-    
     func onDoneCardButtonTapped(){
+        selectedCardVM = CardViewModel(userVM.cards[pickers.cardPickerView.selectedRow(inComponent: 0)])
+    
+        guard let selectedCardVM = self.selectedCardVM else {
+             return
+        }
+       let lastDigits = selectedCardVM.lastDigits
+        let cardId = selectedCardVM.cardId
         
-        guard let card = user?.cards else { return print(" erro card")}
-        
-        selectedCard = card[pickers.cardPickerView.selectedRow(inComponent: 0)]
-        
-        guard let lastDigits = selectedCard?.lastDigits else {  return print("erro last digits")}
-        guard let cardId = selectedCard?.cardId else { return print("erro last cardId")}
-        
-        btSelectCard.titleLabel?.text =  "final ...\( lastDigits)"
-        loadStatement(cardId: cardId, month: "default")
-        loadMonths()
+        btSelectCard.titleLabel?.text  = lastDigits
+        loadStatementTable(cardId: cardId, month: "default")
         
         onCancelButtonTapped()
+        
     }
     
     
@@ -188,15 +196,18 @@ extension StatementViewController :  StatementScreenProtocol {
         
         let selectedMonth = months[self.pickers.monthPickerView.selectedRow(inComponent: 0)]
         
-        guard let cardId = selectedCard?.cardId else {
-            return
+        guard let selectedCardVM = self.selectedCardVM else {
+             return
         }
         
+        let cardId = selectedCardVM.cardId
         btMonth.titleLabel?.text = selectedMonth.monthName
-        loadStatement(cardId: cardId, month: selectedMonth.query)
-        
+        loadStatementTable(cardId: cardId, month: selectedMonth.query)
         onCancelButtonTapped()
         
     }
+    
+    
 }
- 
+
+

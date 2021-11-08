@@ -11,7 +11,6 @@ import Foundation
 struct Statement : Codable   {
     let date : String
     let dayStatements : [Store]
-    
 }
 
 struct UserFinancial : Codable  {
