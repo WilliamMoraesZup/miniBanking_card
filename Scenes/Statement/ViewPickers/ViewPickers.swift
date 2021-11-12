@@ -9,7 +9,6 @@ import Foundation
 
 protocol StatementScreenProtocol : AnyObject {
     func onCancelButtonTapped()
-    func onMonthDoneButtonTapped()
     func onDoneCardButtonTapped()
 }
 
@@ -21,15 +20,7 @@ class ViewPickers : UIView {
         self.delegate = delegate
     
     }
-    
-//    func setupDelegates(to vc: StatementViewController){
-//        monthPickerView.delegate = vc
-//        monthPickerView.dataSource = vc
-//        cardPickerView.dataSource = vc
-//        cardPickerView.dataSource = vc
-//
-//    }
-  
+   
     lazy var cardPickerView : UIPickerView = {
         var picker = UIPickerView()
         picker.backgroundColor = .white
@@ -39,30 +30,7 @@ class ViewPickers : UIView {
         return picker
     }()
     
-    
-    lazy var monthPickerView : UIPickerView = {
-        var picker = UIPickerView()
-        picker.backgroundColor = .white
-        picker.frame = CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 200, width: UIScreen.main.bounds.size.width, height: 200)
-        picker.layer.cornerRadius = 10
-        
-        return picker
-    }()
-    
-    
-    lazy var monthToolBar : UIToolbar = {
-        var tool = UIToolbar()
-        tool.layer.cornerRadius = 10
-        tool.layer.masksToBounds = true
-        tool.frame =   CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 200, width: UIScreen.main.bounds.size.width, height: 50)
-        let btDone = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(  self.onMonthDoneButtonTapped))
-        let btSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let btCancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.onCancelButtonTapped ))
-        tool.items = [  btCancel,btSpace ,  btDone]
-         return tool
-    }()
- 
-    
+   
    lazy var cardToolBar : UIToolbar = {
         var tool = UIToolbar()
         tool.layer.cornerRadius = 10
@@ -85,9 +53,7 @@ class ViewPickers : UIView {
     @objc func onDoneCardButtonTapped(){
         delegate?.onDoneCardButtonTapped()
     }
-    @objc func onMonthDoneButtonTapped(){
-        delegate?.onMonthDoneButtonTapped()
-    }
+    
     
 }
  

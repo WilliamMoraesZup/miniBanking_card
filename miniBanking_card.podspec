@@ -14,7 +14,7 @@ Pod::Spec.new do |spec|
       src.source_files = '**/*.{swift}'
     end
     dev.subspec 'Resources' do |rsc|
-      rsc.resources    = '**/*.{xcassets,storyboard,xib}'
+      rsc.resources    = '**/*.{xcassets,storyboard,xib,json,png,jpeg}'
     end
   end
   spec.dependency "miniBanking_core", "~> 0.0"

@@ -37,42 +37,44 @@ final class StatementViewController: ViewController,
     var selectedCardVM : CardViewModel?
     
     // MARK: Outlets
-    @IBOutlet weak var tbStatements: UITableView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var lbUsedLimit: UILabel!
     @IBOutlet weak var lbTotalLimit: UILabel!
     @IBOutlet weak var pvBalance: UIProgressView!
     @IBOutlet weak var btSelectCard: UIButton!
-    @IBOutlet weak var btMonth: UIButton!
+    @IBOutlet weak var lbTypeOfCard: UILabel!
     @IBOutlet weak var scMonthSwitch: UISegmentedControl!
-    
-    
+    @IBOutlet weak var lbFinalCard: UILabel!
+     
+    @IBOutlet weak var btPayBill: UIButton!
     
     // MARK: LifeCycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         scMonthSwitch.removeAllSegments()
-        loadItems(); fetchData()
+        scMonthSwitch.isEnabled =  false
+        btPayBill.isEnabled  = false
+        loadItems();
+        fetchData()
       
         
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        onCancelButtonTapped()
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "payBillSegue"{
+            let view = segue.destination as! PayBillViewController
+            view.cardId = selectedCardVM?.cardId
+             
+             
+        }
     }
-    
+ 
     func loadItems(){
         pickers.delegate(delegate: self)
-      
         self.pickers.cardPickerView.dataSource = self
         self.pickers.cardPickerView.delegate = self
-        self.pickers.monthPickerView.delegate = self
-        self.pickers.monthPickerView.dataSource = self
-        
-        
-        
-    }
+         }
    
     
     // MARK: Actions
@@ -85,41 +87,25 @@ final class StatementViewController: ViewController,
         self.view.addSubview(self.pickers.cardPickerView)
         self.view.addSubview(pickers.cardToolBar)
      }
-    
-//    @IBAction func btChangeMonth(_ sender: UIButton) {
-//        onCancelButtonTapped()
-//        self.view.addSubview(self.pickers.monthPickerView)
-//        self.view.addSubview(self.pickers.monthToolBar)
-//    }
-//
-    
-    @IBAction func monthSwitched(_ sender: UISegmentedControl) {
-        print("asdas")
+ 
+     @IBAction func monthSwitched(_ sender: UISegmentedControl) {
         let index = sender.selectedSegmentIndex
-        
         let selectedMonth = months[index]
-         
-//        switch index {
-//        case 0: month = "sep"
-//        case 1: month = "oct"
-//        case 2: month = "nov"
-//        default: month = "default"
-//        }
+          
         guard let cardVM = selectedCardVM else {
             return
         }
-      
- 
         loadStatementTable(cardId: cardVM.cardId, month: selectedMonth.query)
-       
-        print(selectedMonth)
-        tableView.reloadData()
+         DispatchQueue.main.async {
+          
         
-        }
-        
- 
+         }
+         self.tableView.reloadData()
+         
+         
+         }
+      
     
-   
     // MARK: Funcs
     private func loadStatementTable(cardId : String, month: String ){
         REST.loadStatement(cardId: cardId, query: month) { (statements) in
@@ -137,6 +123,7 @@ final class StatementViewController: ViewController,
                 self.tableView.reloadData()
                 let indexPath = IndexPath(row: 0, section: 0)
                 self.tableView.scrollToRow (at: indexPath, at: .top, animated: true)
+                self.lbFinalCard.text = "Final \(self.selectedCardVM!.lastDigits)"
             }
         }
     onError: { (erro) in print(erro)
@@ -155,23 +142,36 @@ final class StatementViewController: ViewController,
                     indexForSegment += 1
                 }
             }
-          
-            
         }
+        
        REST.loadUser { (user) in
             self.userVM = UserViewModel(user)
            DispatchQueue.main.async {
                self.btSelectCard.isEnabled = true
+               self.selectedCardVM = CardViewModel(user.cards[0])
+               
+               guard let cardVM = self.selectedCardVM else {
+                   return
+               }
+
+               self.loadStatementTable(cardId: cardVM.cardId, month: "default")
+               
+               self.scMonthSwitch.isEnabled = true
+               self.btPayBill.isEnabled = true
+               
+               self.lbFinalCard.text = "Final \(cardVM.lastDigits)"
+               self.tableView.reloadData()
            }
         }
     }
 }
 
+
+
+
 extension StatementViewController :  StatementScreenProtocol {
     func onCancelButtonTapped() {
-        pickers.monthToolBar.removeFromSuperview()
         pickers.cardToolBar.removeFromSuperview()
-        pickers.monthPickerView.removeFromSuperview()
         pickers.cardPickerView.removeFromSuperview()
     }
     
@@ -186,26 +186,12 @@ extension StatementViewController :  StatementScreenProtocol {
         
         btSelectCard.titleLabel?.text  = lastDigits
         loadStatementTable(cardId: cardId, month: "default")
+ 
         
         onCancelButtonTapped()
         
     }
     
-    
-    func onMonthDoneButtonTapped(){
-        
-        let selectedMonth = months[self.pickers.monthPickerView.selectedRow(inComponent: 0)]
-        
-        guard let selectedCardVM = self.selectedCardVM else {
-             return
-        }
-        
-        let cardId = selectedCardVM.cardId
-        btMonth.titleLabel?.text = selectedMonth.monthName
-        loadStatementTable(cardId: cardId, month: selectedMonth.query)
-        onCancelButtonTapped()
-        
-    }
     
     
 }
